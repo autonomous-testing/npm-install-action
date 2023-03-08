@@ -1,0 +1,32 @@
+name: Npm Install
+description: Install nodejs, run npm ci and cache it.
+
+inputs:
+  nodejs-version:
+    description: "Nodejs version."
+    required: false
+    default: "18"
+
+runs:
+  using: "composite"
+
+  steps:
+    - name: Cache
+      id: cache
+      uses: actions/cache@v3
+      with:
+        path: |
+          ~/.npm
+          node_modules
+        key: nodejs-${{inputs.nodejs-version}}-${{hashFiles('package-lock.json')}}
+        restore-keys: nodejs-${{inputs.nodejs-version}}-
+
+    - name: Setup nodejs
+      uses: actions/setup-node@v3
+      with:
+        node-version: ${{inputs.nodejs-version}}
+
+    - name: Setup node_modules
+      if: steps.cache.outputs.cache-hit != 'true'
+      shell: bash
+      run: npm ci
