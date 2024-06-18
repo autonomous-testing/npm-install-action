@@ -5,7 +5,7 @@ inputs:
   nodejs-version:
     description: "Nodejs version."
     required: false
-    default: "18"
+    default: "20"
 
 runs:
   using: "composite"
@@ -13,7 +13,7 @@ runs:
   steps:
     - name: Cache
       id: cache
-      uses: actions/cache@v3
+      uses: actions/cache@v4
       with:
         path: |
           ~/.npm
@@ -22,7 +22,7 @@ runs:
         restore-keys: nodejs-${{inputs.nodejs-version}}-
 
     - name: Setup nodejs
-      uses: actions/setup-node@v3
+      uses: actions/setup-node@v4
       with:
         node-version: ${{inputs.nodejs-version}}
 
