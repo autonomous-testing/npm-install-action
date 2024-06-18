@@ -17,6 +17,7 @@ runs:
       with:
         path: |
           ~/.npm
+          !~/.npm/_cacache
           node_modules
         key: nodejs-${{inputs.nodejs-version}}-${{hashFiles('package-lock.json')}}
         restore-keys: nodejs-${{inputs.nodejs-version}}-
