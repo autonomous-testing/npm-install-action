@@ -13,9 +13,11 @@ runs:
   steps:
     - name: Clear npm cache directory
       run: rm -rf ~/.npm
+      shell: bash
 
     - name: Clear node_modules directory
       run: rm -rf node_modules
+      shell: bash
       
     - name: Cache
       id: cache
