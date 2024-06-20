@@ -11,6 +11,12 @@ runs:
   using: "composite"
 
   steps:
+    - name: Clear npm cache directory
+      run: rm -rf ~/.npm
+
+    - name: Clear node_modules directory
+      run: rm -rf node_modules
+      
     - name: Cache
       id: cache
       uses: actions/cache@v4
