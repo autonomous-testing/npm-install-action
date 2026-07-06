@@ -7,6 +7,11 @@ inputs:
     required: false
     default: "24.18.0"
 
+  npm-token:
+    description: "Auth token exported as NPM_TOKEN during npm ci (for private registries referenced from .npmrc)."
+    required: false
+    default: ""
+
 runs:
   using: "composite"
 
@@ -27,4 +32,6 @@ runs:
     - name: Setup node_modules
       if: steps.cache.outputs.cache-hit != 'true'
       shell: bash
+      env:
+        NPM_TOKEN: ${{inputs.npm-token}}
       run: npm ci
