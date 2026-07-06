@@ -5,7 +5,7 @@ inputs:
   nodejs-version:
     description: "Nodejs version."
     required: false
-    default: "22.15.1"
+    default: "24.18.0"
 
 runs:
   using: "composite"
@@ -13,14 +13,14 @@ runs:
   steps: 
     - name: Cache
       id: cache
-      uses: actions/cache@v4
+      uses: actions/cache@v6
       with:
         path: node_modules
         key: nodejs-${{inputs.nodejs-version}}-${{hashFiles('package-lock.json')}}
         restore-keys: nodejs-${{inputs.nodejs-version}}-
 
     - name: Setup nodejs
-      uses: actions/setup-node@v4
+      uses: actions/setup-node@v6
       with:
         node-version: ${{inputs.nodejs-version}}
 
