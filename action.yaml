@@ -29,6 +29,25 @@ runs:
       with:
         node-version: ${{inputs.nodejs-version}}
 
+    - name: Locate prebuild cache
+      id: prebuilds
+      if: steps.cache.outputs.cache-hit != 'true'
+      shell: bash
+      env:
+        NPM_TOKEN: ${{inputs.npm-token}}
+      run: |
+        dir="$(npm config get cache)/_prebuilds"
+        mkdir -p "$dir"
+        echo "dir=$dir" >> "$GITHUB_OUTPUT"
+
+    - name: Cache native prebuilds
+      if: steps.cache.outputs.cache-hit != 'true'
+      uses: actions/cache@v6
+      with:
+        path: ${{ steps.prebuilds.outputs.dir }}
+        key: prebuilds-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('package-lock.json') }}
+        restore-keys: prebuilds-${{ runner.os }}-${{ runner.arch }}-
+
     - name: Setup node_modules
       if: steps.cache.outputs.cache-hit != 'true'
       shell: bash
